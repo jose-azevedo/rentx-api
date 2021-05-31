@@ -42,7 +42,7 @@ describe('Create Car', () => {
 
     it('Should be able to create a car with "available" as true by default', async () => {
         const car = await createCarUseCase.execute(sampleCar);
-        console.log(car);
+
         expect(car.available).toBe(true);
     });
 });
