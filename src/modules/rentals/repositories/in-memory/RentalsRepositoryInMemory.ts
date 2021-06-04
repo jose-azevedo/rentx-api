@@ -40,14 +40,6 @@ class RentalsRepositoryInMemory implements IRentalsRepository {
         );
         return rental;
     }
-
-    async rent({
-        car_id,
-        user_id,
-        expected_return_date,
-    }: ICreateRentalDTO): Promise<void> {
-        throw new Error('Method not implemented.');
-    }
 }
 
 export { RentalsRepositoryInMemory };
