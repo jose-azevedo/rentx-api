@@ -30,7 +30,14 @@ describe('List Categories Controller', () => {
             });
 
         adminToken = responseToken.token;
+    });
 
+    afterAll(async () => {
+        await connection.dropDatabase();
+        await connection.close();
+    });
+
+    it('Should be able to list all categories', async () => {
         await request(app)
             .post('/categories')
             .send({
@@ -61,17 +68,8 @@ describe('List Categories Controller', () => {
             .set({
                 Authorization: `Bearer ${adminToken}`,
             });
-    });
 
-    afterAll(async () => {
-        await connection.dropDatabase();
-        await connection.close();
-    });
-
-    it('Should be able to list all categories', async () => {
         const response = await request(app).get('/categories');
-
-        console.log(response.body);
 
         expect(response.status).toBe(200);
         expect(response.body.length).toBe(3);
