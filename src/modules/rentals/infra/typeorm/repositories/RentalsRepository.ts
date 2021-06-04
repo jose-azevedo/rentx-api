@@ -13,14 +13,20 @@ class RentalsRepository implements IRentalsRepository {
     }
 
     async create({
+        id,
         car_id,
         user_id,
         expected_return_date,
+        end_date,
+        total,
     }: ICreateRentalDTO): Promise<Rental> {
         const rental = this.repository.create({
+            id,
             car_id,
             user_id,
             expected_return_date,
+            end_date,
+            total,
         });
 
         await this.repository.save(rental);
@@ -29,23 +35,24 @@ class RentalsRepository implements IRentalsRepository {
     }
 
     async findOngoingRentalByCar(car_id: string): Promise<Rental> {
-        const ongoingRental = await this.repository
-            .createQueryBuilder('rental')
-            .where('car_id = :car_id', { car_id })
-            .andWhere('end_date = :end_date', { end_date: null })
-            .getOne();
+        const ongoingRental = await this.repository.findOne({
+            where: { car_id, end_date: null },
+        });
 
         return ongoingRental;
     }
 
     async findOngoingRentalByUser(user_id: string): Promise<Rental> {
-        const ongoingRental = await this.repository
-            .createQueryBuilder('rental')
-            .where('user_id = :user_id', { user_id })
-            .andWhere('end_date = :end_date', { end_date: null })
-            .getOne();
+        const ongoingRental = await this.repository.findOne({
+            where: { user_id, end_date: null },
+        });
 
         return ongoingRental;
+    }
+
+    async findById(id: string): Promise<Rental> {
+        const rental = await this.repository.findOne(id);
+        return rental;
     }
 }
 
