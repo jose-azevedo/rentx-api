@@ -2,7 +2,7 @@
     "openapi": "3.0.0",
     "info": {
         "title": "RentX Documentation",
-        "description": "This is an API Rent",
+        "description": "This is a car rent API",
         "version": "1.0.0",
         "contact": ["joseazevedo47@hotmail.com"]
     },
@@ -12,6 +12,11 @@
                 "tags": ["Category"],
                 "summary": "Crate a category",
                 "description": "Create a new category",
+                "security": [
+                    {
+                        "bearerAuth": [] 
+                    }
+                ],
                 "requestBody": {
                     "content": {
                         "application/json": {
@@ -77,6 +82,11 @@
                 "tags": ["Category"],
                 "summary": "Upload categories",
                 "description": "Upload categories with a csv file",
+                "security": [
+                    {
+                        "bearerAuth": [] 
+                    }
+                ],
                 "requestBody": {
                     "content":{
                         "multipart/form-data": {
@@ -104,6 +114,11 @@
                 "tags": ["Specifications"],
                 "summary": "Creates specification",
                 "description": "Creates a new specification in database with given name and description",
+                "security": [
+                    {
+                        "bearerAuth": [] 
+                    }
+                ],
                 "requestBody": {
                     "content": {
                         "application/json": {
@@ -119,6 +134,113 @@
                     },
                     "500": {
                         "description": "Specification already exists!"
+                    }
+                }
+            }
+        },
+        "/sessions": {
+            "post": {
+                "tags": ["Users"],
+                "summary": "Authenticate user",
+                "description": "Authenticate user and generate an access token",
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "email": {
+                                        "type": "string"
+                                    },
+                                    "password": {
+                                        "type": "string"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Authenticated"
+                    },
+                    "400": {
+                        "description": "Email or password incorrect"
+                    }
+                }
+            }
+        },
+        "/cars": {
+            "post": {
+                "tags": ["Cars"],
+                "summary": "Creates a car",
+                "description": "Creates a new car entry on database",
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ],
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/definitions/Car"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Created"
+                    },
+                    "400": {
+                        "description": "Car already exists!"
+                    }
+                }
+            }
+        },
+        "/cars/{id}/images/": {
+            "post": {
+                "tags": ["Cars"],
+                "summary": "Uploads images",
+                "description": "Uploads a collection of car images",
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ],
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "Car id",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "content": {
+                        "multipart/form-data": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "images": {
+                                        "type": "array",
+                                        "items": {
+                                            "type": "string",
+                                            "format": "binary"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Created"
                     }
                 }
             }
@@ -138,6 +260,42 @@
             "example": {
                 "name": "Specification name",
                 "description": "Specification description"
+            }
+        },
+        "Car": {
+            "type": "object",
+            "properties": {
+                "name": {
+                    "type": "string"
+                },
+                "category_id": {
+                    "type": "string"
+                },
+                
+                "brand": {
+                    "type": "string"
+                },
+                "license_plate": {
+                    "type": "string"
+                },
+                "daily_rate": {
+                    "type": "number"
+                },
+                "description": {
+                    "type": "string"
+                },
+                "fine_amount": {
+                    "type": "number"
+                }
+            }
+        }
+    },
+    "components": {
+        "securitySchemes": {
+            "bearerAuth": {
+                "type": "http",
+                "scheme": "bearer",
+                "bearerFormat": "JWT"
             }
         }
     }
