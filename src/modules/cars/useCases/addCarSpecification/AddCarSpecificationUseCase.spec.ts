@@ -4,7 +4,7 @@ import { SpecificationsRepositoryInMemory } from '@modules/cars/repositories/in-
 import { ICreateSpecificationDTO } from '@modules/cars/repositories/ISpecificationsRepository';
 import { AppError } from '@shared/errors/AppError';
 
-import { AddCarSpecificationUseCase } from './AddCarSpecification';
+import { AddCarSpecificationUseCase } from './AddCarSpecificationUseCase';
 
 let addCarSpecificationUseCase: AddCarSpecificationUseCase;
 let carsRepository: CarsRepositoryInMemory;

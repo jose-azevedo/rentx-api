@@ -1,7 +1,7 @@
 import { Request, Response } from 'express';
 import { container } from 'tsyringe';
 
-import { AddCarSpecificationUseCase } from './AddCarSpecification';
+import { AddCarSpecificationUseCase } from './AddCarSpecificationUseCase';
 
 class AddCarSpecificationController {
     async handle(request: Request, response: Response): Promise<Response> {
