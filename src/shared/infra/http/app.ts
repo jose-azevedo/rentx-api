@@ -2,6 +2,7 @@ import express, { NextFunction, Request, Response } from 'express';
 import swaggerUi from 'swagger-ui-express';
 import 'express-async-errors';
 import 'reflect-metadata';
+import '@config/dotenv';
 
 import { AppError } from '@shared/errors/AppError';
 import { router } from '@shared/infra/http/routes';
