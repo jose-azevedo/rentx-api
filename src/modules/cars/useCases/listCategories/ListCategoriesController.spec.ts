@@ -22,14 +22,12 @@ describe('List Categories Controller', () => {
         values('${id}', 'admin', 'admin@rentx.com', '${password}', true, 'now()', 'XXXXXXXXX')
         `);
 
-        const { body: responseToken } = await request(app)
-            .post('/sessions')
-            .send({
-                email: 'admin@rentx.com',
-                password: 'admin',
-            });
+        const { body } = await request(app).post('/sessions').send({
+            email: 'admin@rentx.com',
+            password: 'admin',
+        });
 
-        adminToken = responseToken.token;
+        adminToken = body.refresh_token;
     });
 
     afterAll(async () => {
